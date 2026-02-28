@@ -40,16 +40,20 @@
   - Format: JSON with chinese, pinyin, english, spanish, source, category, tags fields
   - Pending: Spanish translation, quality review, date assignment
 
-- [ ] **Spanish translations** — Translate all 306 proverb entries to Spanish
-  - File: `data/proverbs/proverbs.json` (fill `spanish` field)
+- [x] **Spanish translations** — All 323 proverb entries translated to neutral Spanish
+  - File: `data/proverbs/proverbs.json` (`spanish` field filled)
+  - Also translated: `source`, `author`, `category`, `tags` fields
 
 - [ ] **Proverb quality review** — Review translation clarity and content meaning
   - Flag entries that may make zero sense to a modern reader
   - Ensure proverbs work as standalone daily calendar content
 
-- [ ] **Proverb date assignment** — Map 306 proverbs to specific calendar days (March–December 2026)
-  - Solar term proverbs assigned near their solar term dates
-  - Balance categories across the calendar
+- [x] **Proverb date assignment** — 306 proverbs mapped to calendar days (March–December 2026)
+  - Solar term proverbs pinned to exact solar term dates
+  - Festival-appropriate proverbs on Qingming, Dragon Boat, Mid-Autumn, Double Ninth
+  - Seasonal affinity matching (spring=growth, summer=strength, autumn=reflection, winter=cultivation)
+  - Opening: 千里之行始于足下 (Mar 1), Closing: 温故而知新 (Dec 31)
+  - 17 extras dropped during curation
 
 - [ ] **Activity translation mapping** — Chinese → Spanish for ~50-80 auspicious/inauspicious activity terms
   - Source: `lunar` library output (e.g., 理发 → Corte de pelo, 嫁娶 → Matrimonio)
