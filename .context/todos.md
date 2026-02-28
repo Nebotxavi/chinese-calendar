@@ -22,17 +22,21 @@
 
 ## In Progress
 
-- [ ] **Define UX direction** — Visual identity and design principles
-  - Direction decided: tradition revisited through modern minimalism (see `.context/decisions/ux-direction.md`)
-  - Pending: art research, visual references, color palette, typography, spacing grid, design spec
+- [x] **Define UX direction** — Visual identity and design principles
+  - Direction: "New Chinese Luxury" — tradition revisited through premium modern Chinese aesthetics
+  - Art research complete: `docs/art-direction-research.md`
+  - Design spec (draft): `docs/design-spec.md` — based on prototype `11-luxury-with-motifs.html`
+  - 10 prototype variations explored (prototypes/02–11), luxury direction chosen
+  - Pending: yi/ji color fix, monthly motif sourcing
 
 ---
 
 ## Pending
 
-- [ ] **Art research / design spec** — Collect visual references, define color palette, typography system, spacing grid, component design
-  - Lead: designer agent + product-owner (cultural accuracy)
-  - Output: design spec document with concrete values (hex colors, font names, spacing units)
+- [x] **Art research / design spec** — Collect visual references, define color palette, typography system, spacing grid, component design
+  - Art research: `docs/art-direction-research.md` (650 lines — studios, calligraphers, patterns, Guochao movement, seasonal motifs)
+  - Design spec: `docs/design-spec.md` (colors, fonts, spacing, components — based on prototype 11)
+  - Prototypes: `prototypes/02–11` (10 variations explored)
 
 - [x] **Proverb dataset curation** — 306 entries curated in `data/proverbs/proverbs.json`
   - Sources: `.context/research/proverb-sources.md`
@@ -62,6 +66,16 @@
   - Dependencies: `lunar`, `google_mobile_ads`, `in_app_purchase`
   - Architecture: domain / data / presentation layers
   - Configure linting, analysis_options.yaml
+
+- [ ] **Monthly motif illustrations** — Source or commission high-quality images for the right-side monthly motif
+  - Current lotus placeholder is poor quality; the horse (year motif) is the quality target
+  - Need 10 images (March–December), matching paper-cut / line-art style in cinnabar on cream
+  - Options: commission an illustrator, use AI generation, find open-source sets
+  - Monthly subjects defined in `docs/design-spec.md` (peach blossom, peony, pomegranate, lotus, etc.)
+
+- [x] **Fix yi/ji activity colors** — Auspicious (宜) now jade green, inauspicious (忌) stays grey
+  - 宜 marker changed to `--jade: #4A7050` in prototype 11 and design spec
+  - 忌 remains `--ink-light` (#9E8E82)
 
 - [ ] **Custom fonts** — Research and select fonts for the calendar design
   - Calligraphic for Chinese characters, clean sans-serif for readability
