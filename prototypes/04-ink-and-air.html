@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Feng Shui Calendar — Ink & Air</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@300;400;500&family=Inter:wght@300;400;500&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --white: #FAFAF8;
+    --ink-100: rgba(0,0,0,0.85);
+    --ink-60: rgba(0,0,0,0.55);
+    --ink-30: rgba(0,0,0,0.25);
+    --ink-12: rgba(0,0,0,0.10);
+    --ink-05: rgba(0,0,0,0.04);
+    --vermillion: #D44B3C;
+  }
+
+  body {
+    font-family: 'Inter', 'Noto Sans SC', sans-serif;
+    background: #E8E6E3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+  }
+
+  .phone-frame {
+    width: 390px;
+    max-width: 100%;
+    background: var(--white);
+    border-radius: 40px;
+    padding: 32px 24px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  }
+
+  /* ---- No tagline — maximum emptiness ---- */
+
+  /* ---- Calendar Card ---- */
+  .calendar-card {
+    background: transparent;
+  }
+
+  /* -- Date Header -- */
+  .date-header {
+    padding: 0 0 40px;
+    text-align: center;
+    position: relative;
+  }
+
+  .meta-top {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+  }
+
+  .year-label, .month-label {
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    font-size: 11px;
+    color: var(--ink-30);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  .day-number {
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 900;
+    font-size: 140px;
+    line-height: 0.78;
+    color: var(--ink-100);
+    letter-spacing: -0.03em;
+  }
+
+  /* Single red seal — the ONLY color in the entire design */
+  .seal {
+    position: absolute;
+    bottom: 20px;
+    right: 8px;
+    width: 38px;
+    height: 38px;
+    border: 2px solid var(--vermillion);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 900;
+    font-size: 18px;
+    color: var(--vermillion);
+    transform: rotate(-12deg);
+    opacity: 0.7;
+  }
+
+  /* -- Content Section -- */
+  .content-section {
+    padding: 0;
+  }
+
+  /* Day of week */
+  .day-of-week {
+    text-align: center;
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    font-size: 11px;
+    color: var(--ink-30);
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+  }
+
+  .day-of-week-zh {
+    text-align: center;
+    font-family: 'Noto Sans SC', sans-serif;
+    font-weight: 300;
+    font-size: 13px;
+    color: var(--ink-30);
+    margin-bottom: 32px;
+  }
+
+  /* Lunar date — vertical writing for tradition */
+  .lunar-date-vertical {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    position: absolute;
+    right: 0;
+    top: 0;
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 600;
+    font-size: 12px;
+    color: var(--ink-30);
+    letter-spacing: 0.3em;
+  }
+
+  /* Solar term — prominent, centered */
+  .solar-term-block {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+
+  .solar-term-zh {
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 900;
+    font-size: 28px;
+    color: var(--ink-100);
+    margin-bottom: 4px;
+    letter-spacing: 0.2em;
+  }
+
+  .solar-term-es {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 300;
+    color: var(--ink-30);
+    letter-spacing: 0.08em;
+  }
+
+  /* Ink wash divider — simulating a brush stroke */
+  .ink-stroke {
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg,
+      transparent 0%,
+      var(--ink-12) 15%,
+      var(--ink-30) 35%,
+      var(--ink-60) 50%,
+      var(--ink-30) 65%,
+      var(--ink-12) 85%,
+      transparent 100%
+    );
+    margin: 0 auto 32px;
+    border-radius: 1px;
+  }
+
+  /* Badges — barely there */
+  .badges {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+
+  .badge {
+    font-family: 'Noto Sans SC', sans-serif;
+    font-size: 10px;
+    font-weight: 400;
+    color: var(--ink-30);
+    letter-spacing: 0.05em;
+  }
+
+  .badge-separator {
+    color: var(--ink-12);
+  }
+
+  /* Activities — minimal, horizontal */
+  .activities {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 32px;
+    padding: 0 4px;
+  }
+
+  .activity-col { flex: 1; }
+
+  .yi-marker {
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 900;
+    font-size: 18px;
+    color: var(--ink-100);
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  .ji-marker {
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 900;
+    font-size: 18px;
+    color: var(--ink-30);
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  .activity-zh {
+    font-family: 'Noto Sans SC', sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--ink-60);
+    line-height: 2;
+  }
+
+  .activity-es {
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    font-weight: 300;
+    color: var(--ink-30);
+    line-height: 1.6;
+    margin-top: 4px;
+  }
+
+  .divider {
+    width: 1px;
+    background: var(--ink-05);
+  }
+
+  /* Proverb — large, breathing */
+  .proverb {
+    text-align: center;
+    padding: 32px 8px 8px;
+    position: relative;
+  }
+
+  .proverb::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 1px;
+    background: var(--ink-12);
+  }
+
+  .proverb-zh {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--ink-100);
+    margin-bottom: 10px;
+    letter-spacing: 0.15em;
+  }
+
+  .proverb-es {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--ink-30);
+    line-height: 1.6;
+  }
+
+  /* Navigation — whisper quiet */
+  .navigation {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    padding: 28px 16px 8px;
+  }
+
+  .nav-btn {
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: 50%;
+    background: var(--ink-05);
+    color: var(--ink-30);
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+  }
+
+  .nav-btn:hover {
+    background: var(--ink-100);
+    color: var(--white);
+  }
+
+  .today-btn {
+    padding: 6px 24px;
+    border: none;
+    border-radius: 16px;
+    background: var(--ink-05);
+    color: var(--ink-30);
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    cursor: pointer;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    transition: all 0.2s;
+  }
+
+  .today-btn:hover {
+    background: var(--ink-100);
+    color: var(--white);
+  }
+
+  /* Ad placeholder */
+  .ad-placeholder {
+    margin-top: 20px;
+    padding: 8px;
+    text-align: center;
+    color: var(--ink-12);
+    font-size: 10px;
+    font-family: 'Inter', sans-serif;
+    letter-spacing: 0.1em;
+  }
+</style>
+</head>
+<body>
+
+<div class="phone-frame">
+  <div class="calendar-card">
+    <!-- Date Header -->
+    <div class="date-header">
+      <div class="meta-top">
+        <span class="year-label">2026</span>
+        <span class="month-label">Marzo</span>
+      </div>
+      <div class="day-number">15</div>
+      <div class="seal">福</div>
+    </div>
+
+    <!-- Content -->
+    <div class="content-section">
+      <div class="day-of-week">Domingo</div>
+      <div class="day-of-week-zh">星期日</div>
+
+      <div class="solar-term-block">
+        <div class="solar-term-zh">惊 蛰</div>
+        <div class="solar-term-es">Despertar de los Insectos · Día 11</div>
+      </div>
+
+      <div class="ink-stroke"></div>
+
+      <div class="badges">
+        <span class="badge">丙午年 正月廿七</span>
+        <span class="badge-separator">·</span>
+        <span class="badge">戊子日</span>
+        <span class="badge-separator">·</span>
+        <span class="badge">火</span>
+      </div>
+
+      <div class="activities">
+        <div class="activity-col">
+          <span class="yi-marker">宜</span>
+          <div class="activity-zh">理发 冠笄 嫁娶 进人口</div>
+          <div class="activity-es">Corte de pelo · Mayoría de edad · Matrimonio · Bienvenida</div>
+        </div>
+        <div class="divider"></div>
+        <div class="activity-col">
+          <span class="ji-marker">忌</span>
+          <div class="activity-zh">置产 伐木 纳畜 安葬 破土</div>
+          <div class="activity-es">Adquirir propiedades · Talar · Ganado · Entierro · Excavación</div>
+        </div>
+      </div>
+
+      <div class="proverb">
+        <div class="proverb-zh">多易必多难</div>
+        <div class="proverb-es">Quien encuentra todo fácil, encontrará muchas dificultades...</div>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="navigation">
+      <button class="nav-btn">‹</button>
+      <button class="today-btn">Hoy</button>
+      <button class="nav-btn">›</button>
+    </div>
+  </div>
+
+  <div class="ad-placeholder">— espacio publicitario —</div>
+</div>
+
+</body>
+</html>

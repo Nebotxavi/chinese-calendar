@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Feng Shui Calendar — Porcelain</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@300;400;500&family=Ma+Shan+Zheng&family=Liu+Jian+Mao+Cao&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #1B3A5C;
+    --bg-dark: #0F2540;
+    --porcelain: #FAFCFD;
+    --porcelain-warm: #F0F4F7;
+    --blue: #2B5C8A;
+    --blue-medium: #4A7EB0;
+    --blue-light: rgba(43,92,138,0.12);
+    --blue-faint: rgba(43,92,138,0.06);
+    --cinnabar: #B83A2A;
+    --gold: #C8A960;
+    --gold-light: rgba(200,169,96,0.1);
+    --ink: #1A2A3A;
+    --ink-medium: #4A5A6A;
+    --ink-light: #8A96A2;
+    --border-blue: rgba(43,92,138,0.2);
+  }
+
+  body {
+    font-family: 'Inter', 'Noto Sans SC', sans-serif;
+    background: linear-gradient(180deg, var(--bg) 0%, var(--bg-dark) 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+  }
+
+  .phone-frame {
+    width: 390px;
+    max-width: 100%;
+    background: var(--bg);
+    border-radius: 40px;
+    padding: 24px 16px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+  }
+
+  .tagline {
+    text-align: center;
+    color: rgba(255,255,255,0.5);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 0.15em;
+    margin-bottom: 16px;
+  }
+
+  .calendar-card {
+    background: var(--porcelain);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+    position: relative;
+  }
+
+  .card-accent {
+    height: 3px;
+    background: linear-gradient(90deg, transparent 10%, var(--blue), var(--blue-medium), var(--blue), transparent 90%);
+    opacity: 0.6;
+  }
+
+  /* Date Header */
+  .date-header {
+    padding: 16px 16px 10px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+
+  .header-side {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    width: 64px;
+  }
+
+  .year-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--blue);
+    letter-spacing: 0.08em;
+  }
+
+  .month-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--blue);
+    letter-spacing: 0.08em;
+  }
+
+  .day-number {
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 900;
+    font-size: 88px;
+    line-height: 0.85;
+    color: var(--blue);
+    text-align: center;
+    flex: 1;
+  }
+
+  /* Motifs — blue & white porcelain style */
+  .motif-container {
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .motif-container svg { width: 100%; height: 100%; }
+
+  /* Content */
+  .content-section {
+    margin: 0 14px;
+    border: 1.5px solid var(--border-blue);
+    border-radius: 6px;
+    padding: 14px 16px;
+    position: relative;
+    background: var(--porcelain-warm);
+  }
+
+  /* Wave pattern border bottom (CSS) */
+  .content-section::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 10%;
+    right: 10%;
+    height: 8px;
+    background: repeating-linear-gradient(
+      90deg,
+      transparent 0px,
+      transparent 6px,
+      var(--blue-light) 6px,
+      var(--blue-light) 8px
+    );
+    opacity: 0.5;
+    border-radius: 0 0 4px 4px;
+  }
+
+  .day-of-week {
+    text-align: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--ink);
+    letter-spacing: 0.08em;
+    margin-bottom: 1px;
+  }
+
+  .day-of-week-zh {
+    text-align: center;
+    font-family: 'Noto Sans SC', sans-serif;
+    font-size: 12px;
+    font-weight: 300;
+    color: var(--ink-light);
+    margin-bottom: 12px;
+  }
+
+  .lunar-date {
+    text-align: center;
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--ink);
+    margin-bottom: 6px;
+    letter-spacing: 0.1em;
+  }
+
+  .solar-term {
+    text-align: center;
+    margin-bottom: 14px;
+  }
+
+  .solar-term-zh {
+    font-family: 'Liu Jian Mao Cao', cursive;
+    font-size: 30px;
+    color: var(--blue);
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  .solar-term-es {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 12px;
+    font-style: italic;
+    color: var(--ink-light);
+  }
+
+  /* Blue wave divider */
+  .wave-divider {
+    width: 120px;
+    height: 12px;
+    margin: 0 auto 14px;
+    position: relative;
+  }
+
+  .wave-divider svg { width: 100%; height: 100%; }
+
+  .badges {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+
+  .badge {
+    font-family: 'Noto Sans SC', sans-serif;
+    font-size: 10px;
+    font-weight: 400;
+    padding: 3px 10px;
+    border: 1px solid var(--blue-medium);
+    border-radius: 3px;
+    color: var(--blue);
+    background: var(--blue-faint);
+  }
+
+  .activities {
+    display: flex;
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+
+  .activity-col { flex: 1; }
+
+  .yi-marker {
+    font-family: 'Liu Jian Mao Cao', cursive;
+    font-size: 26px;
+    color: var(--cinnabar);
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .ji-marker {
+    font-family: 'Liu Jian Mao Cao', cursive;
+    font-size: 26px;
+    color: var(--ink-light);
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .activity-zh {
+    font-family: 'Noto Sans SC', sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--ink);
+    line-height: 1.8;
+  }
+
+  .activity-es {
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    color: var(--ink-light);
+    line-height: 1.6;
+    margin-top: 4px;
+  }
+
+  .act-divider {
+    width: 1px;
+    background: linear-gradient(180deg, transparent, var(--blue-medium), transparent);
+    opacity: 0.3;
+  }
+
+  .proverb {
+    text-align: center;
+    padding: 14px 12px 4px;
+    border-top: 1px solid var(--border-blue);
+  }
+
+  .proverb-zh {
+    font-family: 'Ma Shan Zheng', cursive;
+    font-size: 20px;
+    color: var(--blue);
+    margin-bottom: 6px;
+  }
+
+  .proverb-es {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 12px;
+    font-style: italic;
+    color: var(--ink-light);
+    line-height: 1.4;
+  }
+
+  .navigation {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 16px 18px;
+  }
+
+  .nav-btn {
+    width: 34px;
+    height: 34px;
+    border: 1px solid var(--blue);
+    border-radius: 4px;
+    background: transparent;
+    color: var(--blue);
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+  }
+
+  .nav-btn:hover { background: var(--blue); color: var(--porcelain); }
+
+  .today-btn {
+    padding: 6px 24px;
+    border: 1px solid var(--blue);
+    border-radius: 4px;
+    background: transparent;
+    color: var(--blue);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    letter-spacing: 0.08em;
+    transition: all 0.2s;
+  }
+
+  .today-btn:hover { background: var(--blue); color: var(--porcelain); }
+
+  .ad-placeholder {
+    margin-top: 12px;
+    padding: 10px;
+    border: 1px dashed rgba(255,255,255,0.15);
+    border-radius: 6px;
+    text-align: center;
+    color: rgba(255,255,255,0.25);
+    font-size: 10px;
+    font-family: 'Inter', sans-serif;
+  }
+</style>
+</head>
+<body>
+
+<div class="phone-frame">
+  <div class="tagline">Calendario Feng Shui · 万年历</div>
+
+  <div class="calendar-card">
+    <div class="card-accent"></div>
+
+    <div class="date-header">
+      <div class="header-side">
+        <div class="year-label">2026</div>
+        <!-- Koi fish motif — porcelain blue -->
+        <div class="motif-container">
+          <svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 36 C16 28, 22 22, 30 20 C34 19, 38 20, 40 24 C42 28, 40 34, 36 36 C32 38, 26 38, 22 40 C18 42, 14 44, 12 42 Z" stroke="#2B5C8A" stroke-width="1.2" fill="#2B5C8A" fill-opacity="0.08"/>
+            <!-- Tail fin -->
+            <path d="M12 36 C8 32, 6 28, 8 24 C10 26, 12 30, 12 36Z" stroke="#2B5C8A" stroke-width="1" fill="#2B5C8A" fill-opacity="0.06"/>
+            <!-- Eye -->
+            <circle cx="36" cy="24" r="1.5" fill="#2B5C8A" opacity="0.4"/>
+            <!-- Scales suggestion -->
+            <path d="M20 30 Q24 28 28 30" stroke="#2B5C8A" stroke-width="0.6" fill="none" opacity="0.2"/>
+            <path d="M22 34 Q26 32 30 34" stroke="#2B5C8A" stroke-width="0.6" fill="none" opacity="0.2"/>
+            <!-- Water ripple -->
+            <path d="M16 46 Q22 44 28 46 Q34 48 40 46" stroke="#2B5C8A" stroke-width="0.8" fill="none" opacity="0.15"/>
+            <path d="M20 50 Q26 48 32 50 Q38 52 44 50" stroke="#2B5C8A" stroke-width="0.6" fill="none" opacity="0.1"/>
+          </svg>
+        </div>
+      </div>
+      <div class="day-number">15</div>
+      <div class="header-side">
+        <div class="month-label">MAR</div>
+        <!-- Peach blossom — porcelain style -->
+        <div class="motif-container">
+          <svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Branch -->
+            <path d="M10 50 C18 40, 26 30, 34 22 C38 18, 42 14, 46 10" stroke="#2B5C8A" stroke-width="1.2" fill="none" opacity="0.35"/>
+            <path d="M34 22 C36 24, 40 26, 44 28" stroke="#2B5C8A" stroke-width="0.8" fill="none" opacity="0.25"/>
+            <!-- 5-petal flowers -->
+            <g opacity="0.2" transform="translate(30,20)">
+              <ellipse cx="0" cy="-5" rx="3" ry="5" fill="#2B5C8A"/>
+              <ellipse cx="4.75" cy="-1.55" rx="3" ry="5" fill="#2B5C8A" transform="rotate(72)"/>
+              <ellipse cx="2.94" cy="4.05" rx="3" ry="5" fill="#2B5C8A" transform="rotate(144)"/>
+              <ellipse cx="-2.94" cy="4.05" rx="3" ry="5" fill="#2B5C8A" transform="rotate(216)"/>
+              <ellipse cx="-4.75" cy="-1.55" rx="3" ry="5" fill="#2B5C8A" transform="rotate(288)"/>
+            </g>
+            <circle cx="30" cy="20" r="2" fill="#2B5C8A" opacity="0.15"/>
+            <!-- Smaller flower -->
+            <circle cx="40" cy="16" r="4" fill="#2B5C8A" opacity="0.1"/>
+            <circle cx="40" cy="16" r="1.5" fill="#2B5C8A" opacity="0.15"/>
+            <!-- Bud -->
+            <ellipse cx="44" cy="26" rx="2" ry="3" fill="#2B5C8A" opacity="0.12" transform="rotate(-30 44 26)"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="content-section">
+      <div class="day-of-week">Domingo</div>
+      <div class="day-of-week-zh">星期日</div>
+
+      <div class="lunar-date">丙午年 · 正月廿七</div>
+      <div class="solar-term">
+        <span class="solar-term-zh">惊蛰</span>
+        <span class="solar-term-es">Despertar de los Insectos · Día 11</span>
+      </div>
+
+      <!-- Wave divider -->
+      <div class="wave-divider">
+        <svg viewBox="0 0 120 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0 6 Q10 0 20 6 Q30 12 40 6 Q50 0 60 6 Q70 12 80 6 Q90 0 100 6 Q110 12 120 6" stroke="#2B5C8A" stroke-width="1" fill="none" opacity="0.2"/>
+        </svg>
+      </div>
+
+      <div class="badges">
+        <span class="badge">戊子日</span>
+        <span class="badge">火</span>
+        <span class="badge">Fuego</span>
+      </div>
+
+      <div class="activities">
+        <div class="activity-col">
+          <span class="yi-marker">宜</span>
+          <div class="activity-zh">理发 冠笄 嫁娶 进人口</div>
+          <div class="activity-es">Corte de pelo · Mayoría de edad · Matrimonio · Bienvenida</div>
+        </div>
+        <div class="act-divider"></div>
+        <div class="activity-col">
+          <span class="ji-marker">忌</span>
+          <div class="activity-zh">置产 伐木 纳畜 安葬 破土</div>
+          <div class="activity-es">Adquirir propiedades · Talar · Ganado · Entierro · Excavación</div>
+        </div>
+      </div>
+
+      <div class="proverb">
+        <div class="proverb-zh">多易必多难</div>
+        <div class="proverb-es">Quien encuentra todo fácil, encontrará muchas dificultades...</div>
+      </div>
+    </div>
+
+    <div class="navigation">
+      <button class="nav-btn">‹</button>
+      <button class="today-btn">Hoy</button>
+      <button class="nav-btn">›</button>
+    </div>
+  </div>
+
+  <div class="ad-placeholder">— Espacio publicitario —</div>
+</div>
+
+</body>
+</html>
