@@ -21,9 +21,9 @@ flutter:
   uses-material-design: false
 
   assets:
-    - assets/data/proverbs.json
+    - assets/data/proverbs.min.json
     - assets/images/horse.jpg
-    - assets/images/lotus.jpg
+    - assets/images/months/
 
   # TODO: Optimize font file sizes — Chinese fonts are ~15MB each.
   # Consider subsetting with pyftsubset for production.
