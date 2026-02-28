@@ -34,11 +34,22 @@
   - Lead: designer agent + product-owner (cultural accuracy)
   - Output: design spec document with concrete values (hex colors, font names, spacing units)
 
-- [ ] **Proverb dataset curation** — Curate ~306 Chinese wisdom proverbs (March–December 2026)
-  - Sources identified: `.context/research/proverb-sources.md`
-  - Mix: Confucius, Laozi, Zhuangzi, chengyu, folk proverbs, solar term sayings
-  - Format: JSON with chinese, pinyin, source, category fields
-  - Spanish translation handled separately after curation
+- [x] **Proverb dataset curation** — 306 entries curated in `data/proverbs/proverbs.json`
+  - Sources: `.context/research/proverb-sources.md`
+  - Categories: classical (145), chengyu (70), folk (55), solar-term (36)
+  - Format: JSON with chinese, pinyin, english, spanish, source, category, tags fields
+  - Pending: Spanish translation, quality review, date assignment
+
+- [ ] **Spanish translations** — Translate all 306 proverb entries to Spanish
+  - File: `data/proverbs/proverbs.json` (fill `spanish` field)
+
+- [ ] **Proverb quality review** — Review translation clarity and content meaning
+  - Flag entries that may make zero sense to a modern reader
+  - Ensure proverbs work as standalone daily calendar content
+
+- [ ] **Proverb date assignment** — Map 306 proverbs to specific calendar days (March–December 2026)
+  - Solar term proverbs assigned near their solar term dates
+  - Balance categories across the calendar
 
 - [ ] **Activity translation mapping** — Chinese → Spanish for ~50-80 auspicious/inauspicious activity terms
   - Source: `lunar` library output (e.g., 理发 → Corte de pelo, 嫁娶 → Matrimonio)
