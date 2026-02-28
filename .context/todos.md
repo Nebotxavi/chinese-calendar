@@ -62,3 +62,15 @@
   - Dependencies: `lunar`, `google_mobile_ads`, `in_app_purchase`
   - Architecture: domain / data / presentation layers
   - Configure linting, analysis_options.yaml
+
+- [ ] **Custom fonts** — Research and select fonts for the calendar design
+  - Calligraphic for Chinese characters, clean sans-serif for readability
+  - Not urgent, but high impact on visual quality
+
+- [ ] **Calendar skins** — Different visual themes users can switch between
+  - Easy win: stored on-device, no backend needed
+  - Consider APK size impact — evaluate on-demand asset loading if too heavy
+
+- [ ] **Daily chengyu notifications** — Remind users to check today's proverb
+  - Push notification if user hasn't opened the app
+  - Future feature, not urgent at all
