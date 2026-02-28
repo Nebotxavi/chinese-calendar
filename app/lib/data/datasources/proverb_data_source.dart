@@ -7,8 +7,7 @@ import 'package:feng_shui_calendar/domain/proverb.dart';
 class ProverbDataSource {
   List<Proverb>? _cachedProverbs;
 
-  // TODO: Switch to proverbs.min.json when available
-  static const _assetPath = 'assets/data/proverbs.json';
+  static const _assetPath = 'assets/data/proverbs.min.json';
 
   Future<List<Proverb>> loadProverbs() async {
     if (_cachedProverbs != null) {

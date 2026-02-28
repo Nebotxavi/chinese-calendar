@@ -112,7 +112,6 @@ class CalendarScreen extends ConsumerWidget {
                   ),
                 ),
                 const SizedBox(height: 6),
-                // TODO: Optimize image size — currently 667KB, target ~30KB
                 Opacity(
                   opacity: 0.3,
                   child: Image.asset(
@@ -139,7 +138,7 @@ class CalendarScreen extends ConsumerWidget {
               ),
             ),
           ),
-          // Right: month + lotus motif
+          // Right: month + monthly motif
           SizedBox(
             width: 72,
             child: Column(
@@ -155,11 +154,10 @@ class CalendarScreen extends ConsumerWidget {
                   ),
                 ),
                 const SizedBox(height: 6),
-                // TODO: Optimize image size — currently 949KB, target ~30KB
                 Opacity(
                   opacity: 0.25,
                   child: Image.asset(
-                    'assets/images/lotus.jpg',
+                    _monthImagePath(day.month),
                     width: 54,
                     height: 54,
                     fit: BoxFit.contain,
@@ -560,6 +558,11 @@ class CalendarScreen extends ConsumerWidget {
         ],
       ),
     );
+  }
+
+  String _monthImagePath(int month) {
+    final m = month.toString().padLeft(2, '0');
+    return 'assets/images/months/month_$m.jpg';
   }
 
   void _navigate(WidgetRef ref, DateTime current, int delta) {
