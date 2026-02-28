@@ -1,2 +1,24 @@
 local-settings.json
 .DS_Store
+
+# Flutter
+.dart_tool/
+.packages
+build/
+*.iml
+.idea/
+.flutter-plugins
+.flutter-plugins-dependencies
+.metadata
+
+# Android
+android/.gradle/
+android/local.properties
+android/app/debug/
+android/app/profile/
+android/app/release/
+*.apk
+*.aab
+
+# Context
+.context/
