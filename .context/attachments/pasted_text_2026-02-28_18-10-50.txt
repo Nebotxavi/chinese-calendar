@@ -1,0 +1,221 @@
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+## Project Overview
+
+Nova Aurora is a TypeScript/Node.js REST API service for a recruiter platform. It follows Clean Architecture with four layers: Domain → Services → Usecases → Infrastructure.
+
+**Git Submodules**: This repo uses submodules. Clone with `git clone --include-submodules` or run `git submodule update --init` after cloning. Set `git config --global submodule.recurse true` to auto-update on pull.
+
+## Common Commands
+
+```bash
+# Development
+npm run dev                    # Start dev server with hot reload (uses pino-pretty for logs)
+npm run build                  # Compile TypeScript to build/
+npm run type-check             # Type check without emitting
+
+# Testing
+npm test                       # Run all tests (Jest, 45% workers)
+npm test -- path/to/file.test.ts  # Run a single test file
+npm run test:watch             # Run tests in watch mode
+npm run test:coverage          # Run tests with coverage
+
+# Linting
+npm run lint                   # Run ESLint
+
+# Turborepo (for monorepo builds)
+npm run turbo:build            # Build with turborepo
+npm run turbo:test             # Test with turborepo
+npm run turbo:lint             # Lint with turborepo
+
+# Database
+npm run generate-db-types      # Generate TypeScript types from database schema
+```
+
+## Architecture
+
+### Layer Structure
+```
+src/
+├── domain/          # Entities, enums, primitives (no external dependencies)
+├── services/        # Cross-cutting business logic + abstractions/interfaces
+├── usecases/        # Application-specific orchestration logic
+└── infrastructure/  # Controllers, repositories, adapters, API definitions
+```
+
+### Key Architectural Rules
+
+1. **Dependency Injection**: Use Awilix. NEVER import usecases, services, repositories, or adapters directly.
+   ```typescript
+   // CORRECT
+   export default ({ applicationUsecases, applicationRepository }: Dependencies) => { ... }
+
+   // WRONG - direct import
+   import applicationUsecases from '../../usecases/application/application.usecases';
+   ```
+
+2. **Domain Logic in Entities**: Business logic belongs in Entity methods, not in Usecases. Usecases only orchestrate.
+   ```typescript
+   // CORRECT - delegate to entity
+   const account = await accountRepository.getById(accountId);
+   account.withdraw(amount);
+   await accountRepository.update(account);
+
+   // WRONG - logic in usecase
+   if (account.balance < amount) throw new NovaError(...);
+   account.balance -= amount;
+   ```
+
+3. **Time Primitive**: Always use `Time` class for date/time operations, never raw `Date` objects.
+
+4. **Error Handling**: Always use `NovaError` with `NovaResponse` exceptions. Never throw raw errors or hardcode HTTP status codes (use `http-status-codes` package).
+
+5. **RESTful API Standards**: All endpoints must follow REST conventions:
+   - Use plural nouns for resources: `/applications/{id}`, not `/application/{id}`
+   - Use hyphens in URLs: `/knowledge-bases/`, not `/knowledge_bases/`
+   - Use correct HTTP verbs: `DELETE /applications/{id}`, not `GET /delete-applications/{id}`
+   - URL path versioning: `/api/v1/resource`
+
+6. **Repository Update Methods**: Repositories should expose a single `update(id, entity)` method that performs a full entity update, not field-specific methods like `updateEmail` or partial-pick methods. The implementation uses the existing `adapt()` function to map domain fields to DB columns. When you need to update one field, mutate the entity in the service layer and pass the full entity to `update()`.
+   ```typescript
+   // CORRECT - full entity update
+   profile.email = enriched.email;
+   await profileRepository.update(profile.id, profile);
+
+   // WRONG - field-specific method
+   await profileRepository.updateEmail(profile.id, email);
+   ```
+
+7. **Generic Enum Values**: Avoid ad-hoc enum values tied to a specific feature. Prefer generic values that make sense across all consumers of the enum. For example, use `SKIPPED` instead of `ENRICHMENT_SKIPPED`.
+
+8. **Structured Handler Results Over Error Type Checking**: Avoid using `instanceof` checks on specific error types to drive control flow in orchestration code. Instead, handlers should return structured results (e.g., `{ shouldSkip: true }`) so the orchestrator remains generic. Error type checking belongs close to the code that produces the error (e.g., inside the handler that calls the service), not in distant catch blocks.
+
+9. **Provider-Agnostic Services**: Services (e.g., `message.service.ts`) must never branch on a specific provider (`if (provider === Provider.EMAIL)`). Provider-specific concerns like email enrichment belong in that provider's adapter compositor layer (e.g., `emailProvider.adapter.ts`), not in shared service code.
+
+10. **Avoid Unnecessary Wrapper Functions**: Don't extract a helper function that's just called inline with no real abstraction benefit. Prefer straightforward imperative code — assign to a variable, override it conditionally, then return the result directly.
+
+## Testing
+
+### Test Structure
+- **Primary**: `tests/usecases/` - Most tests should be usecase tests
+- **Secondary**: `tests/services/` - Only for complex cross-cutting logic
+- **Tertiary**: `tests/units/domain/` - Only for complex entity methods
+
+### Key Testing Rules
+- Mock **only** repositories and adapters (never mock services or usecases)
+- **NEVER use `jest.spyOn` on services or usecases**. This includes spying to mock return values (e.g., `jest.spyOn(someService, 'method').mockResolvedValueOnce(...)`). Instead, mock the repositories and adapters that the service calls internally so the real service code executes. This ensures tests validate the actual behavior chain, not just the orchestration layer.
+- **Transitive dependencies**: When a usecase uses a service that internally uses a repository, the usecase tests must also mock that repository
+- Always use `mockReset().mockResolvedValueOnce()` (not `mockResolvedValue()`)
+- Use builders from `tests/entity-builders/` for test data
+- Use stubs from `tests/stubs/` for mocking
+- Resolve dependencies from `tests/test.container.ts`
+
+
+```typescript
+// CORRECT - mock the adapter that the service calls
+providerImplementationStub.sendMessage.mockReset().mockRejectedValueOnce(
+  new Error('Provider unavailable')
+);
+await executeSingleAction(actionId); // real service code runs, hits the mocked adapter
+
+// WRONG - spy on the service directly
+jest.spyOn(campaignActionService, 'executeAction').mockResolvedValueOnce({
+  error: 'Provider unavailable',
+});
+```
+
+```typescript
+import { ApplicationBuilder } from '../../entity-builders/application/application.builder';
+import applicationRepositoryStub from '../../stubs/application/application.repository.stub';
+import container from '../../test.container';
+
+const { getApplication } = container.resolve('applicationUsecases');
+
+beforeEach(() => {
+  applicationRepositoryStub.getApplicationById
+    .mockReset()
+    .mockResolvedValueOnce(new ApplicationBuilder().build());
+});
+```
+
+## Code Conventions
+
+### Naming
+- **Files**: camelCase with dots: `campaign.usecases.ts`, `campaign.controller.ts`
+- **Variables/functions**: camelCase with auxiliary verbs for booleans: `isActive`, `hasPermission`
+- **Classes/interfaces/types/enums**: PascalCase
+- **Constants**: UPPER_CASE
+
+### Lint Rules (enforced by ESLint — CI will reject violations)
+- **No trailing commas** in function parameters or arguments — the `@stylistic/comma-dangle` rule forbids them.
+  ```typescript
+  // CORRECT
+  function foo(
+    a: string,
+    b: number
+  ): void {}
+
+  // WRONG
+  function foo(
+    a: string,
+    b: number,  // ← trailing comma not allowed
+  ): void {}
+  ```
+- **Always use braces** after `if`/`else`/`for`/`while` — the `curly` rule forbids inline bodies.
+  ```typescript
+  // CORRECT
+  if (done) {
+    return;
+  }
+
+  // WRONG
+  if (done) return;
+  ```
+
+### Import Order
+
+2. Domain imports (entities, enums, primitives)
+3. Service abstractions and interfaces
+4. Usecase types and utilities
+5. Infrastructure adapters and utilities
+6. Local module imports
+
+### Types
+- Use `interface` for contracts and object shapes that might be extended
+- Use `type` for unions, intersections, mapped types, and types that won't be extended
+- Numeric enums for database compatibility with exported values mapping
+
+### Error Testing Pattern
+
+```typescript
+import NovaError from './novaError';
+
+test('it should throw if not found', async () => {
+   repositoryStub.getById.mockReset().mockResolvedValueOnce(null);
+   await expect(getEntity(id)).rejects.toThrow(new NovaError(EntityNotFound));
+});
+```
+
+## Key Files
+
+- `src/container.ts` - Awilix dependency injection container
+- `src/app.ts` - Express application setup
+- `src/domain/primitives/exceptions.ts` - Domain exceptions
+- `src/domain/primitives/Time.ts` - Time primitive (always use instead of Date)
+- `tests/test.container.ts` - Test dependency injection container
+- `eslint.config.mjs` - ESLint configuration
+
+## Library Modules
+
+- `lib/db-adapter/` - Database adapter (Knex-based)
+- `lib/queue-adapter/` - Queue adapter for async processing
+
+## API Documentation
+
+Local Swagger docs available at `http://localhost:8085/docs` when running dev server. API definitions live in `src/infrastructure/api/definition/`.
+
+## Additional Docs
+
+- [Campaign Creation via API (Manual Steps)](docs/campaign-creation-api.md) - Full guide for creating campaigns with manually added steps, including the required two-phase approach (create steps, then link them).
