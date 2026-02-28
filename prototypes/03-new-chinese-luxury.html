@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Feng Shui Calendar — New Chinese Luxury</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --cream: #FAF3E0;
+    --cream-deep: #F0E5CC;
+    --cinnabar: #A52422;
+    --cinnabar-light: rgba(165,36,34,0.08);
+    --gold: #C5A55A;
+    --gold-light: rgba(197,165,90,0.15);
+    --celadon: #8FA87E;
+    --text-dark: #2C1810;
+    --text-medium: #5D4037;
+    --text-light: #9E8E82;
+    --border: rgba(197,165,90,0.3);
+  }
+
+  body {
+    font-family: 'Inter', 'Noto Sans SC', sans-serif;
+    background: linear-gradient(135deg, #3D1C11 0%, #2C1810 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+  }
+
+  .phone-frame {
+    width: 390px;
+    max-width: 100%;
+    background: linear-gradient(180deg, #2C1810 0%, #3D1C11 100%);
+    border-radius: 40px;
+    padding: 24px 16px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+  }
+
+  /* ---- Tagline ---- */
+  .tagline {
+    text-align: center;
+    color: var(--gold);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px;
+    font-weight: 400;
+    font-style: italic;
+    letter-spacing: 0.12em;
+    margin-bottom: 16px;
+  }
+
+  /* ---- Calendar Card ---- */
+  .calendar-card {
+    background: linear-gradient(180deg, var(--cream) 0%, #F5EBDA 100%);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    border: 1px solid var(--gold-light);
+    position: relative;
+  }
+
+  /* Gold top accent bar */
+  .calendar-card::before {
+    content: '';
+    display: block;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+
+  /* -- Date Header -- */
+  .date-header {
+    padding: 20px 20px 14px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    position: relative;
+  }
+
+  .year-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: 16px;
+    color: var(--gold);
+    letter-spacing: 0.08em;
+  }
+
+  .day-number {
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 900;
+    font-size: 88px;
+    line-height: 0.9;
+    color: var(--cinnabar);
+    text-align: center;
+    flex: 1;
+  }
+
+  .month-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: 16px;
+    color: var(--gold);
+    text-align: right;
+    letter-spacing: 0.08em;
+  }
+
+  /* Decorative stamp */
+  .stamp {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 28px;
+    color: var(--cinnabar);
+    opacity: 0.2;
+    margin-top: 8px;
+  }
+
+  .stamp-right { text-align: right; }
+
+  /* -- Content Section -- */
+  .content-section {
+    margin: 0 16px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 16px 18px;
+    position: relative;
+    background: linear-gradient(180deg, rgba(255,255,255,0.3) 0%, transparent 100%);
+  }
+
+  /* Corner ornaments - cloud motif */
+  .corner { position: absolute; color: var(--gold); font-size: 10px; opacity: 0.5; }
+  .corner-tl { top: -1px; left: 6px; }
+  .corner-tr { top: -1px; right: 6px; }
+  .corner-bl { bottom: -1px; left: 6px; }
+  .corner-br { bottom: -1px; right: 6px; }
+
+  /* Day of week */
+  .day-of-week {
+    text-align: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--text-dark);
+    margin-bottom: 2px;
+    letter-spacing: 0.08em;
+  }
+
+  .day-of-week-zh {
+    text-align: center;
+    font-family: 'Noto Sans SC', sans-serif;
+    font-weight: 400;
+    font-size: 12px;
+    color: var(--text-light);
+    margin-bottom: 14px;
+  }
+
+  /* Lunar date */
+  .lunar-date {
+    text-align: center;
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--text-dark);
+    margin-bottom: 6px;
+    letter-spacing: 0.1em;
+  }
+
+  /* Solar term */
+  .solar-term {
+    text-align: center;
+    margin-bottom: 16px;
+  }
+
+  .solar-term-zh {
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--cinnabar);
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  .solar-term-es {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px;
+    font-style: italic;
+    color: var(--text-light);
+  }
+
+  /* Gold divider */
+  .gold-divider {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 auto 16px;
+    width: 120px;
+  }
+
+  .gold-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+
+  .gold-dot {
+    width: 4px;
+    height: 4px;
+    background: var(--gold);
+    border-radius: 50%;
+  }
+
+  /* Badges */
+  .badges {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+
+  .badge {
+    font-family: 'Noto Sans SC', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    padding: 3px 10px;
+    border: 1px solid var(--gold);
+    border-radius: 3px;
+    color: var(--gold);
+    background: var(--gold-light);
+  }
+
+  /* Activities */
+  .activities {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+
+  .activity-col { flex: 1; }
+
+  .activity-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 8px;
+  }
+
+  .yi-marker, .ji-marker {
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 900;
+    font-size: 20px;
+    line-height: 1;
+  }
+
+  .yi-marker { color: var(--cinnabar); }
+  .ji-marker { color: var(--text-light); }
+
+  .activity-zh {
+    font-family: 'Noto Sans SC', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-dark);
+    line-height: 1.8;
+    margin-bottom: 4px;
+  }
+
+  .activity-es {
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    color: var(--text-light);
+    line-height: 1.6;
+  }
+
+  .divider {
+    width: 1px;
+    background: linear-gradient(180deg, transparent, var(--gold), transparent);
+  }
+
+  /* Proverb */
+  .proverb {
+    text-align: center;
+    padding: 14px 12px 4px;
+    border-top: 1px solid var(--border);
+  }
+
+  .proverb-zh {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--cinnabar);
+    margin-bottom: 6px;
+    letter-spacing: 0.08em;
+  }
+
+  .proverb-es {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px;
+    font-style: italic;
+    color: var(--text-light);
+    line-height: 1.4;
+  }
+
+  /* Navigation */
+  .navigation {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 16px 18px;
+  }
+
+  .nav-btn {
+    width: 34px;
+    height: 34px;
+    border: 1px solid var(--gold);
+    border-radius: 4px;
+    background: transparent;
+    color: var(--gold);
+    font-size: 16px;
+    font-weight: 400;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+  }
+
+  .nav-btn:hover {
+    background: var(--gold);
+    color: var(--cream);
+  }
+
+  .today-btn {
+    padding: 6px 24px;
+    border: 1px solid var(--gold);
+    border-radius: 4px;
+    background: transparent;
+    color: var(--gold);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    letter-spacing: 0.1em;
+    transition: all 0.2s;
+  }
+
+  .today-btn:hover {
+    background: var(--gold);
+    color: var(--cream);
+  }
+
+  /* Ad placeholder */
+  .ad-placeholder {
+    margin-top: 12px;
+    padding: 10px;
+    border: 1px dashed rgba(197,165,90,0.3);
+    border-radius: 6px;
+    text-align: center;
+    color: rgba(197,165,90,0.4);
+    font-size: 10px;
+    font-family: 'Inter', sans-serif;
+  }
+</style>
+</head>
+<body>
+
+<div class="phone-frame">
+  <div class="tagline">Un calendario milenario para tu hogar digital</div>
+
+  <div class="calendar-card">
+    <!-- Date Header -->
+    <div class="date-header">
+      <div>
+        <div class="year-label">2026</div>
+        <div class="stamp">龍</div>
+      </div>
+      <div class="day-number">15</div>
+      <div>
+        <div class="month-label">MAR</div>
+        <div class="stamp stamp-right">福</div>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="content-section">
+      <span class="corner corner-tl">❖</span>
+      <span class="corner corner-tr">❖</span>
+      <span class="corner corner-bl">❖</span>
+      <span class="corner corner-br">❖</span>
+
+      <div class="day-of-week">Domingo</div>
+      <div class="day-of-week-zh">星期日</div>
+
+      <div class="lunar-date">丙午年 · 正月廿七</div>
+      <div class="solar-term">
+        <span class="solar-term-zh">惊蛰</span>
+        <span class="solar-term-es">Despertar de los Insectos · Día 11</span>
+      </div>
+
+      <div class="gold-divider">
+        <div class="gold-line"></div>
+        <div class="gold-dot"></div>
+        <div class="gold-line"></div>
+      </div>
+
+      <div class="badges">
+        <span class="badge">戊子日</span>
+        <span class="badge">火</span>
+        <span class="badge">Fuego</span>
+      </div>
+
+      <div class="activities">
+        <div class="activity-col">
+          <div class="activity-header">
+            <span class="yi-marker">宜</span>
+          </div>
+          <div class="activity-zh">理发 冠笄 嫁娶 进人口</div>
+          <div class="activity-es">Corte de pelo · Mayoría de edad · Matrimonio · Bienvenida</div>
+        </div>
+        <div class="divider"></div>
+        <div class="activity-col">
+          <div class="activity-header">
+            <span class="ji-marker">忌</span>
+          </div>
+          <div class="activity-zh">置产 伐木 纳畜 安葬 破土</div>
+          <div class="activity-es">Adquirir propiedades · Talar · Ganado · Entierro · Excavación</div>
+        </div>
+      </div>
+
+      <div class="proverb">
+        <div class="proverb-zh">多易必多难</div>
+        <div class="proverb-es">Quien encuentra todo fácil, encontrará muchas dificultades...</div>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="navigation">
+      <button class="nav-btn">‹</button>
+      <button class="today-btn">Hoy</button>
+      <button class="nav-btn">›</button>
+    </div>
+  </div>
+
+  <div class="ad-placeholder">
+    — Espacio publicitario —
+  </div>
+</div>
+
+</body>
+</html>

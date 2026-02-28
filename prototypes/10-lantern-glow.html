@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Feng Shui Calendar — Lantern Glow</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@300;400;500&family=Zhi+Mang+Xing&family=Ma+Shan+Zheng&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #1A1018;
+    --bg-glow: #2A1A20;
+    --card-bg: #FAF0E2;
+    --card-warm: #F2E4CE;
+    --lantern-red: #C83A2A;
+    --lantern-glow: #E85A3A;
+    --amber: #D4920A;
+    --amber-light: rgba(212,146,10,0.12);
+    --amber-warm: #F0C060;
+    --ink: #2C1810;
+    --ink-medium: #5D4037;
+    --ink-light: #9E8E82;
+    --border: rgba(212,146,10,0.2);
+  }
+
+  body {
+    font-family: 'Inter', 'Noto Sans SC', sans-serif;
+    background: var(--bg);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+  }
+
+  .phone-frame {
+    width: 390px;
+    max-width: 100%;
+    background: var(--bg);
+    border-radius: 40px;
+    padding: 24px 16px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Warm ambient glow */
+  .phone-frame::before {
+    content: '';
+    position: absolute;
+    top: -50px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(232,90,58,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .tagline {
+    text-align: center;
+    color: var(--amber-warm);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 0.15em;
+    margin-bottom: 16px;
+    position: relative;
+    z-index: 1;
+    opacity: 0.7;
+  }
+
+  .calendar-card {
+    background: var(--card-bg);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow:
+      0 4px 24px rgba(0,0,0,0.2),
+      0 0 60px rgba(232,90,58,0.06);
+    border: 1px solid var(--amber-light);
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Warm gradient accent */
+  .card-accent {
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--lantern-red), var(--amber), var(--lantern-red), transparent);
+    opacity: 0.6;
+  }
+
+  /* Date Header */
+  .date-header {
+    padding: 16px 16px 10px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+
+  .header-side {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    width: 64px;
+  }
+
+  .year-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--lantern-red);
+    letter-spacing: 0.08em;
+  }
+
+  .month-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--lantern-red);
+    letter-spacing: 0.08em;
+  }
+
+  .day-number {
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 900;
+    font-size: 88px;
+    line-height: 0.85;
+    color: var(--lantern-red);
+    text-align: center;
+    flex: 1;
+  }
+
+  /* Motifs */
+  .motif-container {
+    width: 56px;
+    height: 56px;
+  }
+
+  .motif-container svg { width: 100%; height: 100%; }
+
+  /* Content */
+  .content-section {
+    margin: 0 14px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 14px 16px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.3) 0%, rgba(242,228,206,0.3) 100%);
+    position: relative;
+  }
+
+  /* Warm corner ornaments */
+  .corner-glow {
+    position: absolute;
+    color: var(--amber);
+    font-size: 8px;
+    opacity: 0.35;
+  }
+
+  .cg-tl { top: -4px; left: -4px; }
+  .cg-tr { top: -4px; right: -4px; }
+  .cg-bl { bottom: -4px; left: -4px; }
+  .cg-br { bottom: -4px; right: -4px; }
+
+  .day-of-week {
+    text-align: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--ink);
+    letter-spacing: 0.08em;
+    margin-bottom: 1px;
+  }
+
+  .day-of-week-zh {
+    text-align: center;
+    font-family: 'Noto Sans SC', sans-serif;
+    font-weight: 300;
+    font-size: 13px;
+    color: var(--ink-light);
+    margin-bottom: 12px;
+  }
+
+  .lunar-date {
+    text-align: center;
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--ink);
+    margin-bottom: 6px;
+    letter-spacing: 0.1em;
+  }
+
+  .solar-term {
+    text-align: center;
+    margin-bottom: 14px;
+  }
+
+  .solar-term-zh {
+    font-family: 'Zhi Mang Xing', cursive;
+    font-size: 28px;
+    color: var(--lantern-red);
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  .solar-term-es {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 12px;
+    font-style: italic;
+    color: var(--ink-light);
+  }
+
+  /* Warm divider */
+  .warm-divider {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 auto 14px;
+    width: 120px;
+  }
+
+  .wd-line { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--amber), transparent); opacity: 0.3; }
+  .wd-dot { width: 5px; height: 5px; background: var(--lantern-red); border-radius: 50%; opacity: 0.3; }
+
+  .badges {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+
+  .badge {
+    font-family: 'Noto Sans SC', sans-serif;
+    font-size: 10px;
+    font-weight: 400;
+    padding: 3px 10px;
+    border: 1px solid var(--lantern-red);
+    border-radius: 3px;
+    color: var(--lantern-red);
+    background: rgba(200,58,42,0.05);
+  }
+
+  .activities {
+    display: flex;
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+
+  .activity-col { flex: 1; }
+
+  .yi-marker {
+    font-family: 'Zhi Mang Xing', cursive;
+    font-size: 26px;
+    color: var(--lantern-red);
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .ji-marker {
+    font-family: 'Zhi Mang Xing', cursive;
+    font-size: 26px;
+    color: var(--ink-light);
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .activity-zh {
+    font-family: 'Noto Sans SC', sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--ink);
+    line-height: 1.8;
+  }
+
+  .activity-es {
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    color: var(--ink-light);
+    line-height: 1.6;
+    margin-top: 4px;
+  }
+
+  .act-divider {
+    width: 1px;
+    background: linear-gradient(180deg, transparent, var(--amber), transparent);
+    opacity: 0.2;
+  }
+
+  /* Proverb — warm panel */
+  .proverb {
+    text-align: center;
+    padding: 14px 12px 8px;
+    border-top: 1px solid var(--border);
+    background: linear-gradient(180deg, transparent, rgba(212,146,10,0.04));
+    margin: 0 -16px -14px;
+    padding-left: 16px;
+    padding-right: 16px;
+    border-radius: 0 0 6px 6px;
+  }
+
+  .proverb-zh {
+    font-family: 'Ma Shan Zheng', cursive;
+    font-size: 20px;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+
+  .proverb-es {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 12px;
+    font-style: italic;
+    color: var(--ink-light);
+    line-height: 1.4;
+  }
+
+  .navigation {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 16px 18px;
+  }
+
+  .nav-btn {
+    width: 34px;
+    height: 34px;
+    border: 1px solid var(--lantern-red);
+    border-radius: 4px;
+    background: transparent;
+    color: var(--lantern-red);
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+  }
+
+  .nav-btn:hover { background: var(--lantern-red); color: var(--card-bg); }
+
+  .today-btn {
+    padding: 6px 24px;
+    border: 1px solid var(--lantern-red);
+    border-radius: 4px;
+    background: transparent;
+    color: var(--lantern-red);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    letter-spacing: 0.08em;
+    transition: all 0.2s;
+  }
+
+  .today-btn:hover { background: var(--lantern-red); color: var(--card-bg); }
+
+  .ad-placeholder {
+    margin-top: 12px;
+    padding: 10px;
+    border: 1px dashed rgba(212,146,10,0.2);
+    border-radius: 6px;
+    text-align: center;
+    color: rgba(212,146,10,0.3);
+    font-size: 10px;
+    font-family: 'Inter', sans-serif;
+    position: relative;
+    z-index: 1;
+  }
+</style>
+</head>
+<body>
+
+<div class="phone-frame">
+  <div class="tagline">Calendario Feng Shui · 万年历</div>
+
+  <div class="calendar-card">
+    <div class="card-accent"></div>
+
+    <div class="date-header">
+      <div class="header-side">
+        <div class="year-label">2026</div>
+        <!-- Lantern motif -->
+        <div class="motif-container">
+          <svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- String -->
+            <line x1="28" y1="4" x2="28" y2="14" stroke="#C83A2A" stroke-width="1" opacity="0.3"/>
+            <!-- Top cap -->
+            <rect x="22" y="13" width="12" height="3" rx="1" fill="#C83A2A" opacity="0.2"/>
+            <!-- Lantern body -->
+            <ellipse cx="28" cy="28" rx="12" ry="14" fill="#C83A2A" fill-opacity="0.1" stroke="#C83A2A" stroke-width="1" opacity="0.3"/>
+            <!-- Ribs -->
+            <line x1="28" y1="14" x2="28" y2="42" stroke="#C83A2A" stroke-width="0.5" opacity="0.15"/>
+            <ellipse cx="28" cy="22" rx="11" ry="1" fill="none" stroke="#C83A2A" stroke-width="0.5" opacity="0.15"/>
+            <ellipse cx="28" cy="34" rx="11" ry="1" fill="none" stroke="#C83A2A" stroke-width="0.5" opacity="0.15"/>
+            <!-- Bottom cap -->
+            <rect x="23" y="41" width="10" height="3" rx="1" fill="#C83A2A" opacity="0.2"/>
+            <!-- Tassel -->
+            <line x1="28" y1="44" x2="28" y2="52" stroke="#C83A2A" stroke-width="1" opacity="0.2"/>
+            <line x1="25" y1="50" x2="28" y2="52" stroke="#C83A2A" stroke-width="0.5" opacity="0.15"/>
+            <line x1="31" y1="50" x2="28" y2="52" stroke="#C83A2A" stroke-width="0.5" opacity="0.15"/>
+            <!-- Character inside lantern -->
+            <text x="28" y="30" text-anchor="middle" font-family="Noto Serif SC" font-size="10" fill="#C83A2A" opacity="0.25">春</text>
+          </svg>
+        </div>
+      </div>
+      <div class="day-number">15</div>
+      <div class="header-side">
+        <div class="month-label">MAR</div>
+        <!-- Horse motif — warm amber style -->
+        <div class="motif-container">
+          <svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M14 46l3-10 5-8 2-6-1-4 3-6 5-2h4l5 4 4 8 1 6-1 6 3 6v6h-4l-2-4-3 1-5 2-8 0-6-1z" stroke="#D4920A" stroke-width="1.2" fill="none" opacity="0.3"/>
+            <path d="M34 14c1-3 3-5 5-5s3 2 1 5" stroke="#D4920A" stroke-width="1.2" fill="none" opacity="0.3"/>
+            <path d="M28 16c-1-4-2-7 0-9" stroke="#D4920A" stroke-width="1" fill="none" opacity="0.25"/>
+            <path d="M30 14c-2 1-4 4-6 5s-4 0-3-2" stroke="#D4920A" stroke-width="0.8" fill="none" opacity="0.2"/>
+            <path d="M12 46c-2 4-1 6 1 6s4-2 4-4" stroke="#D4920A" stroke-width="1" fill="none" opacity="0.2"/>
+            <path d="M42 46c1 3 0 6-2 6s-3-2-2-4" stroke="#D4920A" stroke-width="1" fill="none" opacity="0.2"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="content-section">
+      <span class="corner-glow cg-tl">✦</span>
+      <span class="corner-glow cg-tr">✦</span>
+      <span class="corner-glow cg-bl">✦</span>
+      <span class="corner-glow cg-br">✦</span>
+
+      <div class="day-of-week">Domingo</div>
+      <div class="day-of-week-zh">星期日</div>
+
+      <div class="lunar-date">丙午年 · 正月廿七</div>
+      <div class="solar-term">
+        <span class="solar-term-zh">惊蛰</span>
+        <span class="solar-term-es">Despertar de los Insectos · Día 11</span>
+      </div>
+
+      <div class="warm-divider">
+        <div class="wd-line"></div>
+        <div class="wd-dot"></div>
+        <div class="wd-line"></div>
+      </div>
+
+      <div class="badges">
+        <span class="badge">戊子日</span>
+        <span class="badge">火</span>
+        <span class="badge">Fuego</span>
+      </div>
+
+      <div class="activities">
+        <div class="activity-col">
+          <span class="yi-marker">宜</span>
+          <div class="activity-zh">理发 冠笄 嫁娶 进人口</div>
+          <div class="activity-es">Corte de pelo · Mayoría de edad · Matrimonio · Bienvenida</div>
+        </div>
+        <div class="act-divider"></div>
+        <div class="activity-col">
+          <span class="ji-marker">忌</span>
+          <div class="activity-zh">置产 伐木 纳畜 安葬 破土</div>
+          <div class="activity-es">Adquirir propiedades · Talar · Ganado · Entierro · Excavación</div>
+        </div>
+      </div>
+
+      <div class="proverb">
+        <div class="proverb-zh">多易必多难</div>
+        <div class="proverb-es">Quien encuentra todo fácil, encontrará muchas dificultades...</div>
+      </div>
+    </div>
+
+    <div class="navigation">
+      <button class="nav-btn">‹</button>
+      <button class="today-btn">Hoy</button>
+      <button class="nav-btn">›</button>
+    </div>
+  </div>
+
+  <div class="ad-placeholder">— Espacio publicitario —</div>
+</div>
+
+</body>
+</html>
