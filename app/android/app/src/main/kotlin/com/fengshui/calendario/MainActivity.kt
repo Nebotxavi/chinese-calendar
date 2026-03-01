@@ -1,4 +1,4 @@
-package com.fengshui.feng_shui_calendar
+package com.fengshui.calendario
 
 import io.flutter.embedding.android.FlutterActivity
 
