@@ -6,7 +6,8 @@ import 'package:feng_shui_calendar/core/constants/app_fonts.dart';
 import 'package:feng_shui_calendar/core/utils/date_utils.dart';
 import 'package:feng_shui_calendar/domain/calendar_day.dart';
 import 'package:feng_shui_calendar/presentation/providers/calendar_providers.dart';
-import 'package:feng_shui_calendar/presentation/widgets/banner_ad_widget.dart';
+// TODO: Re-enable ads
+// import 'package:feng_shui_calendar/presentation/widgets/banner_ad_widget.dart';
 
 class CalendarScreen extends ConsumerWidget {
   const CalendarScreen({super.key});
@@ -29,8 +30,9 @@ class CalendarScreen extends ConsumerWidget {
                   error: (error, stack) => _buildError(error),
                 ),
               ),
-              const SizedBox(height: 12),
-              const BannerAdWidget(),
+              // TODO: Re-enable ads
+              // const SizedBox(height: 12),
+              // const BannerAdWidget(),
             ],
           ),
         ),
@@ -369,7 +371,7 @@ class CalendarScreen extends ConsumerWidget {
 
   String _monthImagePath(int month) {
     final m = month.toString().padLeft(2, '0');
-    return 'assets/images/months/month_$m.jpg';
+    return 'assets/images/months/month_$m.png';
   }
 
   void _navigate(WidgetRef ref, DateTime current, int delta) {
