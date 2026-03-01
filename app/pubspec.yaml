@@ -26,8 +26,6 @@ flutter:
     - assets/images/horse.jpg
     - assets/images/months/
 
-  # TODO: Optimize font file sizes — Chinese fonts are ~15MB each.
-  # Consider subsetting with pyftsubset for production.
   fonts:
     - family: NotoSerifSC
       fonts:
