@@ -17,37 +17,22 @@ class CalendarScreen extends ConsumerWidget {
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
-        child: SingleChildScrollView(
+        child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
           child: Column(
             children: [
-              _buildTagline(),
-              const SizedBox(height: 16),
-              calendarDayAsync.when(
-                data: (day) => _buildCalendarCard(context, ref, day),
-                loading: () => _buildLoading(),
-                error: (error, stack) => _buildError(error),
+              Expanded(
+                child: calendarDayAsync.when(
+                  data: (day) => _buildCalendarCard(context, ref, day),
+                  loading: () => _buildLoading(),
+                  error: (error, stack) => _buildError(error),
+                ),
               ),
               const SizedBox(height: 12),
               _buildAdPlaceholder(),
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _buildTagline() {
-    return const Text(
-      'Un calendario milenario para tu hogar digital',
-      textAlign: TextAlign.center,
-      style: TextStyle(
-        fontFamily: AppFonts.cormorantGaramond,
-        fontSize: 16,
-        fontWeight: FontWeight.w400,
-        fontStyle: FontStyle.italic,
-        color: AppColors.gold,
-        letterSpacing: 1.9,
       ),
     );
   }
@@ -83,7 +68,12 @@ class CalendarScreen extends ConsumerWidget {
             ),
           ),
           _buildDateHeader(day),
-          _buildContentSection(day),
+          // Scrollable content area
+          Expanded(
+            child: SingleChildScrollView(
+              child: _buildContentSection(day),
+            ),
+          ),
           _buildNavigation(ref, day),
         ],
       ),
@@ -195,36 +185,26 @@ class CalendarScreen extends ConsumerWidget {
                   style: const TextStyle(
                     fontFamily: AppFonts.cormorantGaramond,
                     fontWeight: FontWeight.w600,
-                    fontSize: 15,
+                    fontSize: 18,
                     color: AppColors.ink,
                     letterSpacing: 1.2,
                   ),
                 ),
-                const SizedBox(height: 2),
-                Text(
-                  day.weekdayZh,
-                  style: const TextStyle(
-                    fontFamily: AppFonts.notoSansSC,
-                    fontWeight: FontWeight.w300,
-                    fontSize: 12,
-                    color: AppColors.inkLight,
-                  ),
-                ),
-                const SizedBox(height: 12),
+                const SizedBox(height: 4),
                 // Lunar date
                 Text(
                   day.lunarDateDisplay,
                   style: const TextStyle(
                     fontFamily: AppFonts.notoSerifSC,
                     fontWeight: FontWeight.w600,
-                    fontSize: 14,
+                    fontSize: 16,
                     color: AppColors.ink,
                     letterSpacing: 1.4,
                   ),
                 ),
-                const SizedBox(height: 6),
                 // Solar term (conditional)
                 if (day.hasSolarTerm) ...[
+                  const SizedBox(height: 6),
                   Text(
                     day.solarTermZh,
                     style: const TextStyle(
@@ -238,21 +218,26 @@ class CalendarScreen extends ConsumerWidget {
                     '${day.solarTermEs} · Día ${day.solarTermDayCount}',
                     style: const TextStyle(
                       fontFamily: AppFonts.cormorantGaramond,
-                      fontSize: 12,
+                      fontSize: 15,
                       fontStyle: FontStyle.italic,
                       color: AppColors.inkLight,
                     ),
                   ),
-                  const SizedBox(height: 14),
                 ],
-                // Gold divider
-                _buildGoldDivider(),
-                const SizedBox(height: 14),
-                // Badges
-                _buildBadges(day),
-                const SizedBox(height: 14),
+                const SizedBox(height: 6),
+                // Gan/Zhi + element
+                Text(
+                  '${day.dayGanZhi} · ${day.elementZh} · ${day.elementEs}',
+                  style: const TextStyle(
+                    fontFamily: AppFonts.notoSansSC,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                    color: AppColors.goldRich,
+                  ),
+                ),
+                const SizedBox(height: 12),
                 // Activities
-                _buildActivities(day),
+                _ActivitiesSection(day: day),
                 // Proverb
                 _buildProverb(day),
               ],
@@ -316,189 +301,10 @@ class CalendarScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildGoldDivider() {
-    return SizedBox(
-      width: 130,
-      child: Row(
-        children: [
-          Expanded(
-            child: Container(
-              height: 1,
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    Colors.transparent,
-                    AppColors.gold,
-                    Colors.transparent,
-                  ],
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(width: 6),
-          Transform.rotate(
-            angle: 0.785, // 45 degrees
-            child: Container(
-              width: 5,
-              height: 5,
-              color: AppColors.gold.withValues(alpha: 0.5),
-            ),
-          ),
-          const SizedBox(width: 6),
-          Expanded(
-            child: Container(
-              height: 1,
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    Colors.transparent,
-                    AppColors.gold,
-                    Colors.transparent,
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildBadges(CalendarDay day) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        _badge(day.dayGanZhi),
-        const SizedBox(width: 8),
-        _badge(day.elementZh),
-        const SizedBox(width: 8),
-        _badge(day.elementEs),
-      ],
-    );
-  }
-
-  Widget _badge(String text) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
-      decoration: BoxDecoration(
-        border: Border.all(color: AppColors.gold),
-        borderRadius: BorderRadius.circular(3),
-        color: AppColors.goldLight,
-      ),
-      child: Text(
-        text,
-        style: const TextStyle(
-          fontFamily: AppFonts.notoSansSC,
-          fontSize: 10,
-          fontWeight: FontWeight.w400,
-          color: AppColors.goldRich,
-        ),
-      ),
-    );
-  }
-
-  Widget _buildActivities(CalendarDay day) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // Auspicious (宜)
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                '宜',
-                style: TextStyle(
-                  fontFamily: AppFonts.zhiMangXing,
-                  fontSize: 24,
-                  color: AppColors.cinnabar,
-                ),
-              ),
-              const SizedBox(height: 6),
-              Text(
-                day.auspiciousZh.join(' '),
-                style: const TextStyle(
-                  fontFamily: AppFonts.notoSansSC,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w400,
-                  color: AppColors.ink,
-                  height: 1.8,
-                ),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                day.auspiciousEs.join(' · '),
-                style: const TextStyle(
-                  fontFamily: AppFonts.inter,
-                  fontSize: 10,
-                  color: AppColors.inkLight,
-                  height: 1.6,
-                ),
-              ),
-            ],
-          ),
-        ),
-        // Vertical gold divider
-        Container(
-          width: 1,
-          height: 120,
-          margin: const EdgeInsets.symmetric(horizontal: 7),
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                Colors.transparent,
-                AppColors.gold,
-                Colors.transparent,
-              ],
-            ),
-          ),
-        ),
-        // Inauspicious (忌)
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                '忌',
-                style: TextStyle(
-                  fontFamily: AppFonts.zhiMangXing,
-                  fontSize: 24,
-                  color: AppColors.inkLight,
-                ),
-              ),
-              const SizedBox(height: 6),
-              Text(
-                day.inauspiciousZh.join(' '),
-                style: const TextStyle(
-                  fontFamily: AppFonts.notoSansSC,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w400,
-                  color: AppColors.ink,
-                  height: 1.8,
-                ),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                day.inauspiciousEs.join(' · '),
-                style: const TextStyle(
-                  fontFamily: AppFonts.inter,
-                  fontSize: 10,
-                  color: AppColors.inkLight,
-                  height: 1.6,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-
   Widget _buildProverb(CalendarDay day) {
     return Container(
-      padding: const EdgeInsets.fromLTRB(12, 14, 12, 4),
+      padding: const EdgeInsets.fromLTRB(12, 18, 12, 4),
+      margin: const EdgeInsets.only(top: 14),
       decoration: const BoxDecoration(
         border: Border(top: BorderSide(color: AppColors.borderGold)),
       ),
@@ -509,7 +315,7 @@ class CalendarScreen extends ConsumerWidget {
             textAlign: TextAlign.center,
             style: const TextStyle(
               fontFamily: AppFonts.maShanZheng,
-              fontSize: 20,
+              fontSize: 16,
               color: AppColors.cinnabar,
             ),
           ),
@@ -519,9 +325,9 @@ class CalendarScreen extends ConsumerWidget {
             textAlign: TextAlign.center,
             style: const TextStyle(
               fontFamily: AppFonts.cormorantGaramond,
-              fontSize: 12,
+              fontSize: 16,
               fontStyle: FontStyle.italic,
-              color: AppColors.inkLight,
+              color: AppColors.inkMedium,
               height: 1.4,
             ),
           ),
@@ -615,7 +421,7 @@ class CalendarScreen extends ConsumerWidget {
           'Hoy',
           style: TextStyle(
             fontFamily: AppFonts.cormorantGaramond,
-            fontSize: 14,
+            fontSize: 16,
             fontWeight: FontWeight.w600,
             color: AppColors.gold,
             letterSpacing: 1.4,
@@ -671,6 +477,157 @@ class CalendarScreen extends ConsumerWidget {
           color: AppColors.gold.withValues(alpha: 0.35),
         ),
       ),
+    );
+  }
+}
+
+const _maxCollapsedItems = 6;
+
+class _ActivitiesSection extends StatefulWidget {
+  final CalendarDay day;
+
+  const _ActivitiesSection({required this.day});
+
+  @override
+  State<_ActivitiesSection> createState() => _ActivitiesSectionState();
+}
+
+class _ActivitiesSectionState extends State<_ActivitiesSection> {
+  bool _expanded = false;
+
+  @override
+  void didUpdateWidget(covariant _ActivitiesSection oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.day.date != widget.day.date) {
+      _expanded = false;
+    }
+  }
+
+  bool get _canExpand =>
+      widget.day.auspiciousEs.length > _maxCollapsedItems ||
+      widget.day.inauspiciousEs.length > _maxCollapsedItems;
+
+  List<String> _visibleItems(List<String> items) {
+    if (_expanded || items.length <= _maxCollapsedItems) {
+      return items;
+    }
+    return items.sublist(0, _maxCollapsedItems);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        IntrinsicHeight(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Auspicious (宜)
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const Text(
+                      '宜',
+                      style: TextStyle(
+                        fontFamily: AppFonts.zhiMangXing,
+                        fontSize: 28,
+                        color: AppColors.cinnabar,
+                      ),
+                    ),
+                    const Text(
+                      'auspicioso',
+                      style: TextStyle(
+                        fontFamily: AppFonts.cormorantGaramond,
+                        fontSize: 11,
+                        fontStyle: FontStyle.italic,
+                        color: AppColors.inkLight,
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    Text(
+                      _visibleItems(widget.day.auspiciousEs).join(' · '),
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        fontFamily: AppFonts.inter,
+                        fontSize: 13,
+                        color: AppColors.ink,
+                        height: 1.5,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              // Vertical gold divider
+              Container(
+                width: 1,
+                margin: const EdgeInsets.symmetric(horizontal: 7),
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Colors.transparent,
+                      AppColors.gold,
+                      Colors.transparent,
+                    ],
+                  ),
+                ),
+              ),
+              // Inauspicious (忌)
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const Text(
+                      '忌',
+                      style: TextStyle(
+                        fontFamily: AppFonts.zhiMangXing,
+                        fontSize: 28,
+                        color: AppColors.inkLight,
+                      ),
+                    ),
+                    const Text(
+                      'no auspicioso',
+                      style: TextStyle(
+                        fontFamily: AppFonts.cormorantGaramond,
+                        fontSize: 11,
+                        fontStyle: FontStyle.italic,
+                        color: AppColors.inkLight,
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    Text(
+                      _visibleItems(widget.day.inauspiciousEs).join(' · '),
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        fontFamily: AppFonts.inter,
+                        fontSize: 13,
+                        color: AppColors.ink,
+                        height: 1.5,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+        if (_canExpand)
+          GestureDetector(
+            onTap: () => setState(() => _expanded = !_expanded),
+            child: Padding(
+              padding: const EdgeInsets.only(top: 8),
+              child: Text(
+                _expanded ? '▴' : '▾',
+                style: const TextStyle(
+                  fontSize: 26,
+                  color: AppColors.gold,
+                ),
+              ),
+            ),
+          ),
+      ],
     );
   }
 }
