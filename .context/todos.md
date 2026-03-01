@@ -47,17 +47,16 @@
 ## Pending — Google Play Store Deployment
 
 - [ ] **Create Google Play Developer account** — One-time $25 fee at [play.google.com/console](https://play.google.com/console)
-- [ ] **Generate release keystore** — Create signing key for production builds (`keytool`)
-- [ ] **Configure Gradle signing** — Set up `key.properties` and `build.gradle` for release builds
-- [ ] **Set app identity** — Finalize `applicationId`, version name/code in `build.gradle`
-- [ ] **Create app icon** — Adaptive icon following Android guidelines (foreground + background layers)
+- [x] **Generate release keystore** — PKCS12, 2048-bit RSA, alias `upload`, 10000-day validity. Credentials in `.context/keystore-credentials.md`
+- [x] **Configure Gradle signing** — `key.properties` + `build.gradle.kts` release signing config (falls back to debug if missing)
+- [x] **Set app identity** — `com.fengshui.calendario`, version 1.0.0+1, label "Huangli, tu calendario chino"
+- [x] **Create app icon** — Adaptive icon structure (placeholder foreground: gold circle on #4D1814 background). Replace with final design later
 - [ ] **Build release AAB** — `flutter build appbundle --release`
 - [ ] **Create Play Store listing** — Title, short/full description, screenshots, feature graphic
   - Screenshots: phone mockups for at least 1 device size
   - Feature graphic: 1024x500 banner
   - Category: Lifestyle or Tools
-- [ ] **Write privacy policy** — Required by Google Play (even for no-login apps, because of AdMob)
-  - Host on a simple webpage (GitHub Pages, or S3 with your AWS credits)
+- [x] **Write privacy policy** — `privacy-policy.html` in project root (Spanish, covers AdMob, no-login, IAP). Needs hosting
 - [ ] **Content rating questionnaire** — Fill out in Play Console (IARC rating)
 - [ ] **Set pricing & distribution** — Free + in-app purchases, select countries
 - [ ] **Submit for review** — Upload AAB, typically 1-3 days for first app
