@@ -1,6 +1,3 @@
-// TODO: Complete this map by running lunar.getDayYi()/getDayJi() for all
-// 306 days (Mar-Dec 2026) and collecting unique terms. Current list covers
-// the most common terms. Untranslated terms show the Chinese original.
 const Map<String, String> activityTranslations = {
   '祭祀': 'Ofrenda ritual',
   '祈福': 'Oración',
@@ -87,6 +84,37 @@ const Map<String, String> activityTranslations = {
   '开柱眼': 'Perforar columnas',
   '修墓': 'Reparar tumba',
   '分居': 'Separación',
+  '乘船': 'Navegar',
+  '作梁': 'Construir vigas',
+  '修门': 'Reparar puertas',
+  '出货财': 'Enviar mercancía',
+  '割蜜': 'Cosechar miel',
+  '合脊': 'Unir tejado',
+  '坏垣': 'Demoler muros',
+  '塑绘': 'Esculpir y pintar',
+  '安机械': 'Instalar maquinaria',
+  '开厕': 'Construir letrina',
+  '归宁': 'Visita a padres',
+  '归岫': 'Retiro espiritual',
+  '拆卸': 'Demolición',
+  '捕捉': 'Captura',
+  '探病': 'Visitar enfermos',
+  '教牛马': 'Domar animales',
+  '断蚁': 'Control de plagas',
+  '无': 'Ninguna',
+  '架马': 'Instalar caballete',
+  '破屋': 'Demoler edificio',
+  '立碑': 'Erigir estela',
+  '筑堤': 'Construir dique',
+  '诸事不宜': 'Nada recomendable',
+  '谢土': 'Ritual de la tierra',
+  '赴任': 'Asumir cargo',
+  '造仓': 'Construir almacén',
+  '造庙': 'Construir templo',
+  '造船': 'Construir barco',
+  '造车器': 'Construir vehículos',
+  '针灸': 'Acupuntura',
+  '馀事勿取': 'Evitar otras actividades',
 };
 
 String translateActivity(String chineseActivity) {
