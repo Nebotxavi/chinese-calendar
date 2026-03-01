@@ -1,5 +1,5 @@
 name: feng_shui_calendar
-description: A daily Chinese Feng Shui Huangli calendar with Spanish translations.
+description: "Huangli, tu calendario chino — A daily Chinese Feng Shui Huangli calendar."
 publish_to: 'none'
 version: 1.0.0+1
 
@@ -26,8 +26,6 @@ flutter:
     - assets/images/horse.jpg
     - assets/images/months/
 
-  # TODO: Optimize font file sizes — Chinese fonts are ~15MB each.
-  # Consider subsetting with pyftsubset for production.
   fonts:
     - family: NotoSerifSC
       fonts:

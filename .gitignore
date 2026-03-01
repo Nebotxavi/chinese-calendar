@@ -20,5 +20,8 @@ android/app/release/
 *.apk
 *.aab
 
+# Full (unsubsetted) Chinese fonts — kept locally for re-subsetting
+app/fonts-full/*.ttf
+
 # Context
 .context/
