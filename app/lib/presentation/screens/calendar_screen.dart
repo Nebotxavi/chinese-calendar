@@ -6,6 +6,7 @@ import 'package:feng_shui_calendar/core/constants/app_fonts.dart';
 import 'package:feng_shui_calendar/core/utils/date_utils.dart';
 import 'package:feng_shui_calendar/domain/calendar_day.dart';
 import 'package:feng_shui_calendar/presentation/providers/calendar_providers.dart';
+import 'package:feng_shui_calendar/presentation/widgets/banner_ad_widget.dart';
 
 class CalendarScreen extends ConsumerWidget {
   const CalendarScreen({super.key});
@@ -29,7 +30,7 @@ class CalendarScreen extends ConsumerWidget {
                 error: (error, stack) => _buildError(error),
               ),
               const SizedBox(height: 12),
-              _buildAdPlaceholder(),
+              const BannerAdWidget(),
             ],
           ),
         ),
@@ -652,25 +653,4 @@ class CalendarScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildAdPlaceholder() {
-    return Container(
-      padding: const EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        border: Border.all(
-          color: AppColors.gold.withValues(alpha: 0.25),
-          style: BorderStyle.solid,
-        ),
-        borderRadius: BorderRadius.circular(6),
-      ),
-      child: Text(
-        '— Espacio publicitario —',
-        textAlign: TextAlign.center,
-        style: TextStyle(
-          fontFamily: AppFonts.inter,
-          fontSize: 10,
-          color: AppColors.gold.withValues(alpha: 0.35),
-        ),
-      ),
-    );
-  }
 }
