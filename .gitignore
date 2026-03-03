@@ -23,5 +23,8 @@ android/app/release/
 # Full (unsubsetted) Chinese fonts — kept locally for re-subsetting
 app/fonts-full/*.ttf
 
+# Design prototypes — kept locally as reference
+prototypes/
+
 # Context
 .context/
