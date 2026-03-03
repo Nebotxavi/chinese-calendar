@@ -1,4 +1,4 @@
-# Play Store Listing — Huangli, tu calendario chino
+# Play Store Listing — Huangli, tu calendario lunar
 
 ## App Name (30 chars max)
 Huangli Calendario Lunar

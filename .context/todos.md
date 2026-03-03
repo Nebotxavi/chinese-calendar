@@ -1,5 +1,21 @@
 # Project To-Do List
 
+## MUST — Before First Release
+
+- [ ] **Brand and name consistency** — Ensure "Huangli Calendario Lunar" is consistent across all touchpoints: AndroidManifest label, Play Store listing, privacy policy, pubspec description, docs
+- [ ] **Replace placeholder app icon** — Provide final design for adaptive icon foreground (108x108dp, 66x66dp safe zone)
+- [ ] **AdMob production ads** — Verify ad unit IDs are production-ready (current: `ca-app-pub-6980674466640425/8061143488`)
+- [ ] **Build release AAB** — `flutter build appbundle --release`
+- [ ] **Create Play Store listing** — Upload text from `docs/play-store-listing.md`, add screenshots + feature graphic
+  - Screenshots: phone mockups for at least 1 device size
+  - Feature graphic: 1024x500 banner
+  - Category: Lifestyle
+- [ ] **Content rating questionnaire** — Fill out in Play Console (IARC rating)
+- [ ] **Set pricing & distribution** — Free, select countries (Latin America + Spain)
+- [ ] **Submit for review** — Upload AAB, typically 1-3 days for first app
+
+---
+
 ## Completed
 
 - [x] **Define MVP scope** — What's in v1, what's deferred
@@ -22,32 +38,15 @@
 - [x] **Proverb loading & caching** — Date-based lookup with fallback via repository
 - [x] **Generate release keystore** — PKCS12, 2048-bit RSA, alias `upload`, 10000-day validity
 - [x] **Configure Gradle signing** — `key.properties` + `build.gradle.kts` release signing config
-- [x] **Set app identity** — `com.fengshui.calendario`, version 1.0.0+1, label "Huangli, tu calendario chino"
+- [x] **Set app identity** — `com.fengshui.calendario`, version 1.0.0+1, label "Huangli Calendario Lunar"
 - [x] **Adaptive icon structure** — Placeholder foreground (gold circle on #4D1814). Needs final design
-- [x] **Write privacy policy** — `docs/privacy-policy.html` (Spanish, covers AdMob, no-login). Needs GitHub Pages hosting
-- [x] **Ad environment handling** — `kReleaseMode` check: placeholder in debug, real AdMob in release. Fixes emulator ANR
+- [x] **Write privacy policy** — `docs/privacy-policy.html` (Spanish, covers AdMob, no-login)
+- [x] **Ad environment handling** — `kReleaseMode` check: placeholder in debug, real AdMob in release
 - [x] **Draft Play Store listing** — Title, short/full description, tags in `docs/play-store-listing.md`
-
----
-
-## MUST — Before First Release
-
-- [ ] **Replace placeholder app icon** — Provide final design for adaptive icon foreground (108x108dp, 66x66dp safe zone)
-- [ ] **Replace contact email** — Update `nebotxavi@gmail.com` to final email in:
-  - Privacy policy (`docs/privacy-policy.html`)
-  - Google Play Developer account display email
-  - App store listing contact
-- [ ] **AdMob production ads** — Verify ad unit IDs are production-ready (current: `ca-app-pub-6980674466640425/8061143488`)
-- [ ] **Create Google Play Developer account** — One-time $25 fee at [play.google.com/console](https://play.google.com/console)
-- [ ] **Enable GitHub Pages** — Activate on repo Settings > Pages > Source: `docs/` from `main`
-- [ ] **Build release AAB** — `flutter build appbundle --release`
-- [ ] **Create Play Store listing** — Upload text from `docs/play-store-listing.md`, add screenshots + feature graphic
-  - Screenshots: phone mockups for at least 1 device size
-  - Feature graphic: 1024x500 banner
-  - Category: Lifestyle
-- [ ] **Content rating questionnaire** — Fill out in Play Console (IARC rating)
-- [ ] **Set pricing & distribution** — Free, select countries (Latin America + Spain)
-- [ ] **Submit for review** — Upload AAB, typically 1-3 days for first app
+- [x] **Replace contact email** — Updated to `tanaka_corp@proton.me` in privacy policy
+  - Google Play Developer account display email — update manually in Play Console
+- [x] **Create Google Play Developer account** — Done
+- [x] **Enable GitHub Pages** — Done
 
 ---
 
