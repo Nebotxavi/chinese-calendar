@@ -9,7 +9,7 @@ class FengShuiCalendarApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Feng Shui Calendar',
+      title: 'Huangli, tu calendario lunar',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         scaffoldBackgroundColor: AppColors.background,

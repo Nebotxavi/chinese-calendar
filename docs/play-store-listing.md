@@ -1,7 +1,7 @@
 # Play Store Listing — Huangli, tu calendario lunar
 
 ## App Name (30 chars max)
-Huangli Calendario Lunar
+Huangli, tu calendario lunar
 
 ## Short Description (80 chars max)
 Tu almanaque chino diario: actividades propicias, fecha lunar y proverbios.

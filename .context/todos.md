@@ -2,7 +2,7 @@
 
 ## MUST — Before First Release
 
-- [ ] **Brand and name consistency** — Ensure "Huangli Calendario Lunar" is consistent across all touchpoints: AndroidManifest label, Play Store listing, privacy policy, pubspec description, docs
+- [x] **Brand and name consistency** — Unified to "Huangli, tu calendario lunar" across all touchpoints: AndroidManifest, Play Store listing, Flutter app title, landing page, privacy policy
 - [ ] **Replace placeholder app icon** — Provide final design for adaptive icon foreground (108x108dp, 66x66dp safe zone)
 - [ ] **AdMob production ads** — Verify ad unit IDs are production-ready (current: `ca-app-pub-6980674466640425/8061143488`)
 - [ ] **Build release AAB** — `flutter build appbundle --release`
@@ -38,7 +38,7 @@
 - [x] **Proverb loading & caching** — Date-based lookup with fallback via repository
 - [x] **Generate release keystore** — PKCS12, 2048-bit RSA, alias `upload`, 10000-day validity
 - [x] **Configure Gradle signing** — `key.properties` + `build.gradle.kts` release signing config
-- [x] **Set app identity** — `com.fengshui.calendario`, version 1.0.0+1, label "Huangli Calendario Lunar"
+- [x] **Set app identity** — `com.fengshui.calendario`, version 1.0.0+1, label "Huangli, tu calendario lunar"
 - [x] **Adaptive icon structure** — Placeholder foreground (gold circle on #4D1814). Needs final design
 - [x] **Write privacy policy** — `docs/privacy-policy.html` (Spanish, covers AdMob, no-login)
 - [x] **Ad environment handling** — `kReleaseMode` check: placeholder in debug, real AdMob in release
