@@ -6,8 +6,7 @@ import 'package:feng_shui_calendar/core/constants/app_fonts.dart';
 import 'package:feng_shui_calendar/core/utils/date_utils.dart';
 import 'package:feng_shui_calendar/domain/calendar_day.dart';
 import 'package:feng_shui_calendar/presentation/providers/calendar_providers.dart';
-// TODO: Re-enable ads
-// import 'package:feng_shui_calendar/presentation/widgets/banner_ad_widget.dart';
+import 'package:feng_shui_calendar/presentation/widgets/banner_ad_widget.dart';
 
 class CalendarScreen extends ConsumerWidget {
   const CalendarScreen({super.key});
@@ -30,9 +29,8 @@ class CalendarScreen extends ConsumerWidget {
                   error: (error, stack) => _buildError(error),
                 ),
               ),
-              // TODO: Re-enable ads
-              // const SizedBox(height: 12),
-              // const BannerAdWidget(),
+              const SizedBox(height: 12),
+              const BannerAdWidget(),
             ],
           ),
         ),

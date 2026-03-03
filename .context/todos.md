@@ -20,47 +20,44 @@
 - [x] **Monthly motif images** — 10 JPEGs (month_03–12), ~10-25KB each
 - [x] **Calendar screen UI** — Full MVP layout with navigation, lunar info, activities, proverbs, decorations
 - [x] **Proverb loading & caching** — Date-based lookup with fallback via repository
+- [x] **Generate release keystore** — PKCS12, 2048-bit RSA, alias `upload`, 10000-day validity
+- [x] **Configure Gradle signing** — `key.properties` + `build.gradle.kts` release signing config
+- [x] **Set app identity** — `com.fengshui.calendario`, version 1.0.0+1, label "Huangli, tu calendario chino"
+- [x] **Adaptive icon structure** — Placeholder foreground (gold circle on #4D1814). Needs final design
+- [x] **Write privacy policy** — `docs/privacy-policy.html` (Spanish, covers AdMob, no-login). Needs GitHub Pages hosting
+- [x] **Ad environment handling** — `kReleaseMode` check: placeholder in debug, real AdMob in release. Fixes emulator ANR
+- [x] **Draft Play Store listing** — Title, short/full description, tags in `docs/play-store-listing.md`
 
 ---
 
-## In Progress
+## MUST — Before First Release
 
-- [ ] **AdMob banner integration** — Add `google_mobile_ads`, initialize SDK, replace ad placeholder with real banner
-  - Being worked on in another session
-  - All steps ready except those requiring app to be live in Play Store
+- [ ] **Replace placeholder app icon** — Provide final design for adaptive icon foreground (108x108dp, 66x66dp safe zone)
+- [ ] **Replace contact email** — Update `nebotxavi@gmail.com` to final email in:
+  - Privacy policy (`docs/privacy-policy.html`)
+  - Google Play Developer account display email
+  - App store listing contact
+- [ ] **AdMob production ads** — Verify ad unit IDs are production-ready (current: `ca-app-pub-6980674466640425/8061143488`)
+- [ ] **Create Google Play Developer account** — One-time $25 fee at [play.google.com/console](https://play.google.com/console)
+- [ ] **Enable GitHub Pages** — Activate on repo Settings > Pages > Source: `docs/` from `main`
+- [ ] **Build release AAB** — `flutter build appbundle --release`
+- [ ] **Create Play Store listing** — Upload text from `docs/play-store-listing.md`, add screenshots + feature graphic
+  - Screenshots: phone mockups for at least 1 device size
+  - Feature graphic: 1024x500 banner
+  - Category: Lifestyle
+- [ ] **Content rating questionnaire** — Fill out in Play Console (IARC rating)
+- [ ] **Set pricing & distribution** — Free, select countries (Latin America + Spain)
+- [ ] **Submit for review** — Upload AAB, typically 1-3 days for first app
 
 ---
 
-## Pending — Pre-Launch Polish
+## NICE TO HAVE — Pre-Launch Polish (not blocking release)
 
 - [ ] **Optimize font/image sizes** — Reduce APK weight
   - Chinese fonts are ~15MB total — subset to only used characters
   - Review image compression, consider WebP format
-  - Goal: lightweight APK for fast downloads
-
 - [ ] **Improve monthly motif display** — Current image renders too small
   - Increase visual prominence in the layout
-  - May need larger source images or layout adjustments
-
----
-
-## Pending — Google Play Store Deployment
-
-- [ ] **Create Google Play Developer account** — One-time $25 fee at [play.google.com/console](https://play.google.com/console)
-- [x] **Generate release keystore** — PKCS12, 2048-bit RSA, alias `upload`, 10000-day validity. Credentials in `.context/keystore-credentials.md`
-- [x] **Configure Gradle signing** — `key.properties` + `build.gradle.kts` release signing config (falls back to debug if missing)
-- [x] **Set app identity** — `com.fengshui.calendario`, version 1.0.0+1, label "Huangli, tu calendario chino"
-- [x] **Create app icon** — Adaptive icon structure (placeholder foreground: gold circle on #4D1814 background). Replace with final design later
-- [ ] **Build release AAB** — `flutter build appbundle --release`
-- [ ] **Create Play Store listing** — Title, short/full description, screenshots, feature graphic
-  - Screenshots: phone mockups for at least 1 device size
-  - Feature graphic: 1024x500 banner
-  - Category: Lifestyle or Tools
-- [x] **Write privacy policy** — `privacy-policy.html` in project root (Spanish, covers AdMob, no-login, IAP). Needs hosting
-- [ ] **Content rating questionnaire** — Fill out in Play Console (IARC rating)
-- [ ] **Set pricing & distribution** — Free + in-app purchases, select countries
-- [ ] **Submit for review** — Upload AAB, typically 1-3 days for first app
-- [ ] **Configure AdMob production ads** — After app is live, switch from test to production ad unit IDs
 
 ---
 
