@@ -1,4 +1,5 @@
-import 'package:flutter/foundation.dart';
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,9 +10,8 @@ import 'package:feng_shui_calendar/app.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
-  if (kReleaseMode) {
-    MobileAds.instance.initialize();
-  }
+  // Fire-and-forget: don't block app startup waiting for ad SDK
+  unawaited(MobileAds.instance.initialize());
 
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,

@@ -16,13 +16,18 @@ class _BannerAdWidgetState extends State<BannerAdWidget> {
   BannerAd? _bannerAd;
   bool _isLoaded = false;
 
-  static const String _adUnitId =
+  static const String _prodAdUnitId =
       'ca-app-pub-6980674466640425/8061143488';
+  static const String _testAdUnitId =
+      'ca-app-pub-3940256099942544/6300978111';
+
+  static String get _adUnitId =>
+      kReleaseMode ? _prodAdUnitId : _testAdUnitId;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (kReleaseMode && _bannerAd == null) {
+    if (_bannerAd == null) {
       _loadAd();
     }
   }
