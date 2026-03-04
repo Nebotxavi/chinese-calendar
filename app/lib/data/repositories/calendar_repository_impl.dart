@@ -38,12 +38,24 @@ class CalendarRepositoryImpl implements CalendarRepository {
       solarTermEs:
           solarTermTranslations[raw.currentSolarTerm] ?? raw.currentSolarTerm,
       solarTermDayCount: raw.solarTermDayCount,
-      auspiciousZh: raw.dayYi,
-      auspiciousEs: raw.dayYi.map(translateActivity).toList(),
-      inauspiciousZh: raw.dayJi,
-      inauspiciousEs: raw.dayJi.map(translateActivity).toList(),
+      auspiciousZh: _filterContradictory(raw.dayYi),
+      auspiciousEs:
+          _filterContradictory(raw.dayYi).map(translateActivity).toList(),
+      inauspiciousZh: _filterContradictory(raw.dayJi),
+      inauspiciousEs:
+          _filterContradictory(raw.dayJi).map(translateActivity).toList(),
       proverb: proverb,
     );
+  }
+
+  /// Removes '诸事不宜' ("nothing recommended") when it appears alongside
+  /// specific activities — a data quirk from the lunar package.
+  /// When it appears alone, it's kept as the sole entry.
+  List<String> _filterContradictory(List<String> activities) {
+    if (activities.length <= 1) {
+      return activities;
+    }
+    return activities.where((a) => a != '诸事不宜').toList();
   }
 
   String _extractElement(String wuXing) {
